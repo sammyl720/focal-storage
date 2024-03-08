@@ -1,4 +1,4 @@
-import { IStorage } from "../IStorage";
+import { IStorage } from "../istorage";
 import { FocalStorage } from "../focal-storage";
 import { IFocalStorage } from "../ifocal-storage";
 

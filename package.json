@@ -1,9 +1,11 @@
 {
   "name": "focal-storage",
   "packageManager": "yarn@4.1.1",
+  "author": "Shmuel Leider <sam.leider@hotmail.com",
+  "license": "MIT",
   "scripts": {
     "dev": "live-server --browser=chrome",
-    "build": "tsc",
+    "build": "tsc && rm -rf ./dist/__tests__",
     "test": "jest"
   },
   "devDependencies": {

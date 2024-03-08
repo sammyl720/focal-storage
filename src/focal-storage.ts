@@ -1,6 +1,6 @@
 import { IExpiringValue, isExpiringValue } from "./expiring-value";
 import { IFocalStorage } from "./ifocal-storage";
-import { IStorage } from "./IStorage";
+import { IStorage } from "./istorage";
 
 export class FocalStorage implements IFocalStorage
 {

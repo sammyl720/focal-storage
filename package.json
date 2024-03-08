@@ -7,7 +7,6 @@
   ],
   "license": "MIT",
   "scripts": {
-    "dev": "live-server --browser=chrome",
     "build": "tsc && rm -rf ./dist/__tests__",
     "test": "jest"
   },

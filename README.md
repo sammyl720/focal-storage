@@ -13,13 +13,13 @@ FocalStorage enhances the native browser's localStorage with features like expir
 To install FocalStorage, use npm or yarn:
 
 ```sh
-npm install focal-storage
+npm install focal-store
 ```
 
 or
 
 ```sh
-yarn add focal-storage
+yarn add focal-store
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ yarn add focal-storage
 First, import `FocalStorage` into your module:
 
 ```typescript
-import { FocalStorage } from 'focal-storage';
+import { FocalStorage } from 'focal-store';
 ```
 
 Create an instance of `FocalStorage`:
@@ -71,7 +71,7 @@ Optionally, you can make `FocalStorage` globally accessible through the `window`
 In your main application file or an entry point script, import and call `attachFocalStorageToGlobal`:
 
 ```typescript
-import { attachFocalStorageToGlobal } from 'focal-storage';
+import { attachFocalStorageToGlobal } from 'focal-store';
 
 // Attach FocalStorage instance to the global window object
 attachFocalStorageToGlobal();

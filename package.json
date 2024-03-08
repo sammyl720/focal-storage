@@ -1,11 +1,20 @@
 {
-  "name": "focal-storage",
+  "name": "focal-store",
   "packageManager": "yarn@4.1.1",
   "author": "Shmuel Leider <sam.leider@hotmail.com",
-  "files": [
-    "/dist"
-  ],
+  "description": "Enhanced localStorage with features like expiring keys and JSON serialization.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sammyl720/focal-storage.git"
+  },
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sammyl720/focal-storage/issues"
+  },
+  "homepage": "https://github.com/sammyl720/focal-storage#readme",
   "scripts": {
     "build": "tsc && rm -rf ./dist/__tests__",
     "test": "jest"

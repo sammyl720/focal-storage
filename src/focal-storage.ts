@@ -2,11 +2,12 @@ import { IExpiringValue, isExpiringValue } from "./expiring-value";
 import { IFocalStorage } from "./ifocal-storage";
 import { IStorage } from "./istorage";
 
+/**
+ * Enhances browser's localStorage to support expiring key-value pairs and automatic JSON serialization/deserialization.
+ */
 export class FocalStorage implements IFocalStorage
 {
-    constructor(private storage: IStorage = localStorage)
-    {
-    }
+    constructor(private storage: IStorage = localStorage) { }
 
     getItem<T>(key: string): T | null
     {
@@ -24,11 +25,11 @@ export class FocalStorage implements IFocalStorage
 
     setItem<T>(key: string, value: T, maxAge?: number): void
     {
-        const stringfied = this.toStringifiedItem(value, maxAge);
+        const stringified = this.toStringifiedItem(value, maxAge);
 
-        if (stringfied !== null)
+        if (stringified !== null)
         {
-            this.storage.setItem(key, stringfied);
+            this.storage.setItem(key, stringified);
         }
 
         this.clean();
@@ -45,23 +46,24 @@ export class FocalStorage implements IFocalStorage
         this.storage.clear();
     }
 
-    key<T>(index: number): T | null
+    key(index: number): string | null
     {
-        const value = this.storage.key(index);
-        if (value === null) return null;
-        return value as T;
+        return this.storage.key(index);
     }
 
-    get length()
+    get length(): number
     {
         return this.storage.length;
     }
 
-    async clean()
+    /**
+     * Removes expired items from the storage.
+     */
+    clean()
     {
-        while (await this.hasExpiredItems())
+        for (const key of this.keys())
         {
-            this.storage.removeItem(this.expiredKeys[0]!);
+            this.removeIfExpired(key);
         }
     }
 
@@ -83,85 +85,63 @@ export class FocalStorage implements IFocalStorage
         return parsed as T;
     }
 
-    private async hasExpiredItems()
+    private keys(): string[]
     {
-        return !!this.expiredKeys.length;
-    }
-
-    private keys()
-    {
-        const keys = [];
+        const keys: string[] = [];
         for (let i = 0; i < this.storage.length; i++)
         {
-            keys.push(this.storage.key(i));
+            const key = this.storage.key(i);
+            if (key !== null)
+            {
+                keys.push(key);
+            }
         }
-
         return keys;
     }
 
-
-    private isExpired(expireDate: Date)
+    private isExpired(expireDate: Date): boolean
     {
         return Date.now() > expireDate.getTime();
     }
 
-    private toStringifiedItem<T>(value: T, maxAge?: number)
+    private toStringifiedItem<T>(value: T, maxAge?: number): string | null
     {
-        if (!maxAge)
+        if (maxAge === undefined || maxAge <= 0)
         {
             return JSON.stringify(value);
         }
 
-        if (maxAge > 0)
-        {
-            const expiresOn = new Date();
-            expiresOn.setTime(expiresOn.getTime() + maxAge);
-            const expiringValue: IExpiringValue<T> = {
-                value,
-                expiresOn: expiresOn.toISOString()
-            };
-
-            return JSON.stringify(expiringValue);
-        }
-
-        return null;
+        const expiresOn = new Date();
+        expiresOn.setTime(expiresOn.getTime() + maxAge);
+        const expiringValue: IExpiringValue<T> = { value, expiresOn: expiresOn.toISOString() };
+        return JSON.stringify(expiringValue);
     }
 
-    private parseJson(text: string)
+    private parseJson(text: string): any
     {
         try
         {
-            const parsed = JSON.parse(text);
-            return parsed;
+            return JSON.parse(text);
         } catch (error)
         {
-            console.warn(error);
-            return text;
+            console.warn('Error parsing JSON from storage:', error);
+            return null;
         }
     }
 
-    private async removeIfExpired(key: string)
-    {
-        const isExpired = this.isExpiredKey(key);
-        if (isExpired)
-        {
-            this.storage.removeItem(key);
-        }
-
-        return isExpired;
-    }
-
-    private isExpiredKey(key: string)
+    /**
+     * Checks if the item associated with the given key is expired and removes it if so.
+     */
+    private removeIfExpired(key: string): void
     {
         const item = this.storage.getItem(key);
-        if (item === null) return false;
-
-        const parsed = this.parseJson(item);
-        return isExpiringValue<any>(parsed) && this.isExpired(new Date(parsed.expiresOn));
-    }
-
-    private get expiredKeys()
-    {
-        return this.keys().filter(key => !!key && this.isExpiredKey(key));
+        if (item)
+        {
+            const parsed = this.parseJson(item);
+            if (isExpiringValue<any>(parsed) && this.isExpired(new Date(parsed.expiresOn)))
+            {
+                this.storage.removeItem(key);
+            }
+        }
     }
 }

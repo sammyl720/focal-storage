@@ -2,6 +2,9 @@
   "name": "focal-storage",
   "packageManager": "yarn@4.1.1",
   "author": "Shmuel Leider <sam.leider@hotmail.com",
+  "files": [
+    "/dist"
+  ],
   "license": "MIT",
   "scripts": {
     "dev": "live-server --browser=chrome",

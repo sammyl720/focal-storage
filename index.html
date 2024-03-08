@@ -1,18 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Focal Storage</title>
+    <title>FocalStorage: Enhance Your Local Storage</title>
+    <link rel="stylesheet" href="./static/styles.css">
 </head>
+
 <body>
-    <header>
-        <h1>A client side storage library</h1>
-        <p>The sum of 3 and 5 is <span id="sum"></span></p>
-    </header>
-    <script type="module">
-        import { sum } from "./dist/index.js";
-        document.getElementById('sum').innerText = sum(3,5);
-    </script>
+
+    <div class="container">
+        <header>
+            <h1>FocalStorage: Enhance Your Local Storage</h1>
+            <p>Simplify Web Storage with Power and Flexibility</p>
+        </header>
+
+        <section class="introduction">
+            <img src="./static/web_developer_illustration.jpg" alt="Web Developer Illustration">
+            <p>FocalStorage is a cutting-edge library designed to supercharge your application's local storage
+                capabilities.</p>
+        </section>
+
+        <section class="features">
+            <h2>Key Features</h2>
+            <img src="./static/focalstorage_features_infographic.jpg" alt="FocalStorage Features">
+            <ul>
+                <li>Automatic JSON Serialization/Deserialization</li>
+                <li>Expiring Key-Value Pairs</li>
+                <li>Global Accessibility</li>
+            </ul>
+        </section>
+
+        <section class="getting-started">
+            <h2>Getting Started</h2>
+            <code>npm install focal-storage</code>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 FocalStorage. Enhancing your local storage.</p>
+        </footer>
+    </div>
 </body>
+
 </html>

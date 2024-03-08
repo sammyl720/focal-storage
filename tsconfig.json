@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "esnext",
+    "strict": true,
+    "jsx": "react",
+    "outDir": "./dist",
+    "lib": [
+      "es2022",
+      "DOM",
+      "DOM.Iterable",
+      "ES2015.Generator"
+    ],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "types": [
+      "jest"
+    ],
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

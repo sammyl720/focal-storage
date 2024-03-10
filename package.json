@@ -7,6 +7,9 @@
     "type": "git",
     "url": "git+https://github.com/sammyl720/focal-storage.git"
   },
+  "files": [
+    "dist/**"
+  ],
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,9 +24,7 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
-    "@types/live-server": "^1",
     "jest": "^29.7.0",
-    "live-server": "^1.2.2",
     "ts-jest": "^29.1.2",
     "typescript": "^5.4.2"
   }

@@ -1,16 +1,16 @@
 # FocalStorage
 
-FocalStorage enhances the native browser's localStorage with features like expiring key-value pairs and automatic JSON serialization/deserialization. This package offers an easy-to-use interface for managing your web application's local storage needs more effectively.
+FocalStorage enhances the browser's localStorage with features like expiring key-value pairs and automatic JSON serialization/deserialization. This package offers an easy-to-use interface for managing your web application's local storage needs more efficiently.
 
 ## Features
 
-- **Automatic JSON Serialization/Deserialization**: Automatically handles conversion of stored objects to and from JSON format.
-- **Expiring Key-Value Pairs**: Set expiration times for your storage items, automatically removing them when they expire.
-- **Global Accessibility**: Optionally attach FocalStorage instance to the global `window` object for easy access across your application.
+- **Automatic JSON Serialization/Deserialization**: Automatically converts stored objects to and from JSON.
+- **Expiring Key-Value Pairs**: Allows setting expiration times for storage items, automatically removing them when they expire.
+- **Global Accessibility**: Optionally attach a FocalStorage instance to the global window object.
 
 ## Installation
 
-To install FocalStorage, use npm or yarn:
+Install FocalStorage using npm or yarn:
 
 ```sh
 npm install focal-store
@@ -24,62 +24,65 @@ yarn add focal-store
 
 ## Usage
 
-### Basic Usage
+### Storing and Retrieving Data
 
-First, import `FocalStorage` into your module:
+To use FocalStorage in your project, first import and instantiate it:
 
 ```typescript
 import { FocalStorage } from 'focal-store';
-```
 
-Create an instance of `FocalStorage`:
-
-```typescript
 const storage = new FocalStorage();
 ```
 
-Now you can use the `storage` instance to get, set, remove, and manage your local storage data:
+You can then store data using `setItem` and retrieve it with `getItem`:
 
 ```typescript
-// Set an item in local storage
-storage.setItem('myKey', { data: 'myData' });
+// Store data
+storage.setItem('user', { name: 'Jane Doe', age: 30 });
 
-// Get an item from local storage
-const item = storage.getItem('myKey');
-console.log(item); // Outputs: { data: 'myData' }
+// Retrieve data
+const user = storage.getItem('user');
+console.log(user); // Outputs: { name: 'Jane Doe', age: 30 }
+```
 
-// Remove an item from local storage
-storage.removeItem('myKey');
+### Storing Items with Expiration
 
-// Clear all items from local storage
+FocalStorage allows you to specify an expiration time (in milliseconds) for each item. Once expired, the item will automatically be removed from storage:
+
+```typescript
+// Store an item that expires in 1 hour (3600000 milliseconds)
+storage.setItem('session', { token: 'abc123' }, 3600000);
+
+// Attempting to retrieve the item after it has expired will return null
+setTimeout(() => {
+  const session = storage.getItem('session');
+  console.log(session); // Outputs: null if called after 1 hour
+}, 3600001);
+```
+
+### Removing and Clearing Items
+
+Remove a specific item or clear all items from storage:
+
+```typescript
+// Remove a specific item
+storage.removeItem('user');
+
+// Clear all items from storage
 storage.clear();
 ```
 
-### Using with Expiration
+### Making FocalStorage Globally Accessible
 
-FocalStorage allows you to set an expiration time (in milliseconds) for your storage items:
-
-```typescript
-// Set an item that expires in 1 hour (3600000 milliseconds)
-storage.setItem('temporaryKey', { data: 'temporaryData' }, 3600000);
-```
-
-### Attaching to Global Window Object
-
-Optionally, you can make `FocalStorage` globally accessible through the `window` object by importing `attachFocalStorageToGlobal` from the package. This step is particularly useful if you prefer not to import `FocalStorage` in every module where you need access to local storage.
-
-In your main application file or an entry point script, import and call `attachFocalStorageToGlobal`:
+Optionally, make FocalStorage globally accessible throughout your application:
 
 ```typescript
 import { attachFocalStorageToGlobal } from 'focal-store';
 
-// Attach FocalStorage instance to the global window object
 attachFocalStorageToGlobal();
-
-// Now you can access FocalStorage anywhere using `window.focalStorage`
+// Now you can access FocalStorage globally via `window.focalStorage`
 ```
-
 
 ## License
 
-This project is licensed under the [MIT License](./LICENSE).
+This project is licensed under the [MIT License](https://opensource.org/license/mit).
